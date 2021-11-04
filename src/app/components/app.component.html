@@ -1,0 +1,180 @@
+<header class="header">
+  <h1 class="header__logo">MyPhoneBook</h1>
+  <a href="#" class="exit" *ngIf="currentUser !== undefined">Exit</a>
+</header>
+<div class="unauthorized-screen" *ngIf="currentUser === undefined">
+  <div class="row">
+    <div class="row__col">
+      <form class="form register-form">
+        <h2 class="form__header">Register</h2>
+        <div class="form__body">
+          <div class="form__control">
+            <label for="register_user_login">Login</label>
+            <input
+              required
+              type="text"
+              class="input"
+              id="register_user_login"
+              name="login"
+              [(ngModel)]="user.login"
+            />
+          </div>
+          <div class="form__control">
+            <label for="register_user_password">Password</label>
+            <input
+              required
+              type="password"
+              class="input"
+              id="register_user_password"
+              [(ngModel)]="user.password"
+              name="password"
+            />
+          </div>
+          <div class="form__control">
+            <label for="register_user_born">Date of birth</label>
+            <input
+              required
+              type="text"
+              class="input"
+              id="register_user_born"
+              [(ngModel)]="user.birthdate"
+              name="birthdate"
+            />
+          </div>
+          <div class="form__control">
+            <button type="submit" class="btn btn_success" (click)="addUser()">
+              Register
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="row__col">
+      <form class="form login-form">
+        <h2 class="form__header">Login</h2>
+        <div class="form__body">
+          <div class="form__control">
+            <label for="login_user_login">Login</label>
+            <input
+              required
+              type="text"
+              class="input"
+              id="login_user_login"
+              name="login"
+              [(ngModel)]="login.login"
+            />
+          </div>
+          <div class="form__control">
+            <label for="login_user_password">Password</label>
+            <input
+              required
+              type="password"
+              class="input"
+              id="login_user_password"
+              name="password"
+              [(ngModel)]="login.password"
+            />
+          </div>
+          <div class="form__control">
+            <button
+              type="submit"
+              class="btn btn_success"
+              (click)="findUser(login.login, login.password)"
+            >
+              Login
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="authorized-screen" *ngIf="currentUser !== undefined">
+  <div class="row authorized">
+    <div class="contacts">
+      <h2 class="form__header">My Contacts</h2>
+      <ul class="my-contacts-list">
+        <li
+          class="my-contacts-list-item"
+          *ngFor="let contact of contacts"
+          [class.active-contact]="activeContact === contact"
+          (click)="setToActive(contact)"
+        >
+          {{ contact.name
+          }}<button class="delete-btn" (click)="deleteContact(contact)">
+            x
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="wrapper">
+      <h2 class="form__header">Chosen contact</h2>
+      <div class="chosen-contact" *ngIf="activeContact !== null">
+        <div class="my-contacts-list-item chosen">{{ activeContact.name }}</div>
+        <div class="my-contacts-list-item chosen">{{ activeContact.type }}</div>
+        <div class="my-contacts-list-item chosen">
+          {{ activeContact.value }}
+        </div>
+      </div>
+    </div>
+    <div class="wrapper">
+      <h2 class="form__header">Find contact</h2>
+      <form class="find-contact">
+        <select name="find-type" id="find-type">
+          <option value="find-by-name">Name</option>
+          <option value="find-by-value">Phone/Email</option>
+        </select>
+        <input required type="text" id="serachInput" placeholder="Search..." />
+        <button type="submit" class="btn_success find-btn">Find</button>
+        <button type="reset" class="btn_success reset-btn">Reset</button>
+      </form>
+    </div>
+
+    <div class="adding-contacts">
+      <form class="form add-contact-form">
+        <h2 class="form__header">Add Contacts</h2>
+        <div class="form__body">
+          <div class="form__control my-contacts">
+            <input
+              required
+              type="text"
+              placeholder="Name"
+              id="contact-name"
+              name="name"
+              [(ngModel)]="contact.name"
+            />
+            <select id="options" [(ngModel)]="contact.type" name="type">
+              <option value="phone" *ngFor="let type of types" [ngValue]="type">
+                {{ type }}
+              </option>
+              <!-- <option value="email">Email</option> -->
+            </select>
+            <input
+              required
+              type="text"
+              id="contact"
+              placeholder="Phone/Email"
+              name="value"
+              [(ngModel)]="contact.value"
+            />
+            <button
+              type="submit"
+              class="btn_success"
+              (click)="addContact(contact.name, contact.type, contact.value)"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal-window">
+  <div class="modal-window__window">
+    <div class="modal-window__body">text</div>
+    <div class="modal-window__footer">
+      <button class="btn_success modal-window__btn">Ok</button>
+    </div>
+  </div>
+</div>
