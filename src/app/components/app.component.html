@@ -1,8 +1,8 @@
 <header class="header">
   <h1 class="header__logo">MyPhoneBook</h1>
-  <a href="#" class="exit" *ngIf="currentUser?.login">Exit</a>
+  <a href="#" class="exit" *ngIf="currentUser?.login" (click)="exit()">Exit</a>
 </header>
-<div class="unauthorized-screen" *ngIf="currentUser === undefined">
+<div class="unauthorized-screen" *ngIf="!currentUser">
   <div class="row">
     <div class="row__col">
       <form class="form register-form">
@@ -176,11 +176,13 @@
     </div>
   </div>
 </div>
-<div class="modal-window">
+<div class="modal-window" *ngIf="showModal">
   <div class="modal-window__window">
-    <div class="modal-window__body">text</div>
+    <div class="modal-window__body">{{ message }}</div>
     <div class="modal-window__footer">
-      <button class="btn_success modal-window__btn">Ok</button>
+      <button class="btn_success modal-window__btn" (click)="showModal = false">
+        Ok
+      </button>
     </div>
   </div>
 </div>

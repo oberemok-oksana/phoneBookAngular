@@ -143,7 +143,7 @@ label {
 }
 
 .modal-window {
-  display: none;
+  /* display: none; */
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -156,9 +156,11 @@ label {
 }
 
 .modal-window__window {
-  min-width: 300px;
+  width: 300px;
+  margin: 150px auto;
   background-color: #fff;
   border-radius: 5px;
+  text-align: center;
 }
 
 .modal-window__body,

@@ -21,14 +21,25 @@ export class AppComponent {
   ];
   public types: string[] = ['phone', 'email'];
   public activeContact: Contact | null = null;
+  public showModal: boolean = false;
+  public message: string = 'Please, fill out all the fields.';
   // public search: Contact[] = [];
   // public findTypes: string[] = ['name', 'phone/email'];
   // public foundContact: Contact | null = null;
 
   addUser() {
-    this.users.push(this.user);
-    this.user = new User('', '', '');
-    console.log(this.users);
+    if (
+      this.user.login === '' ||
+      this.user.password === '' ||
+      this.user.birthdate === ''
+    ) {
+      this.showModal = true;
+      console.log(111);
+    } else {
+      this.users.push(this.user);
+      this.user = new User('', '', '');
+      console.log(this.users);
+    }
   }
 
   findUser(login: string, password: string) {
@@ -65,5 +76,10 @@ export class AppComponent {
 
   resetChosenContact() {
     this.activeContact = null;
+  }
+
+  exit() {
+    this.currentUser = undefined;
+    this.login = new Login('', '');
   }
 }
