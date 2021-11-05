@@ -1,6 +1,6 @@
 <header class="header">
   <h1 class="header__logo">MyPhoneBook</h1>
-  <a href="#" class="exit" *ngIf="currentUser !== undefined">Exit</a>
+  <a href="#" class="exit" *ngIf="currentUser?.login">Exit</a>
 </header>
 <div class="unauthorized-screen" *ngIf="currentUser === undefined">
   <div class="row">
@@ -126,7 +126,13 @@
         </select>
         <input required type="text" id="serachInput" placeholder="Search..." />
         <button type="submit" class="btn_success find-btn">Find</button>
-        <button type="reset" class="btn_success reset-btn">Reset</button>
+        <button
+          type="reset"
+          class="btn_success reset-btn"
+          (click)="resetChosenContact()"
+        >
+          Reset
+        </button>
       </form>
     </div>
 

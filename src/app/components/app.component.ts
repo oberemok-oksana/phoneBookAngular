@@ -13,7 +13,7 @@ export class AppComponent {
   public user: User = new User('', '', '');
   public login: Login = new Login('', '');
   public users: User[] = [new User('Oksana', '12345', '123345')];
-  public currentUser: User | undefined = undefined;
+  public currentUser?: User;
   public contact: Contact = new Contact('', '', '');
   public contacts: Contact[] = [
     new Contact('Boba', 'phone', '09956874585'),
@@ -21,6 +21,9 @@ export class AppComponent {
   ];
   public types: string[] = ['phone', 'email'];
   public activeContact: Contact | null = null;
+  // public search: Contact[] = [];
+  // public findTypes: string[] = ['name', 'phone/email'];
+  // public foundContact: Contact | null = null;
 
   addUser() {
     this.users.push(this.user);
@@ -48,5 +51,19 @@ export class AppComponent {
 
   deleteContact(contact: Contact) {
     this.contacts = this.contacts.filter((c) => c !== contact);
+    if (this.activeContact === contact) {
+      this.activeContact = null;
+    }
+  }
+
+  // findContact(type: string, value: string) {
+  //   this.search = this.contacts.filter(
+  //     (c) => c.type === type && c.value === value
+  //   );
+  //   console.log(this.search);
+  // }
+
+  resetChosenContact() {
+    this.activeContact = null;
   }
 }
