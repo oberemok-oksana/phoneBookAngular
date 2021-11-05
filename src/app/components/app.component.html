@@ -1,6 +1,6 @@
 <header class="header">
   <h1 class="header__logo">MyPhoneBook</h1>
-  <a href="#" class="exit" *ngIf="currentUser?.login" (click)="exit()">Exit</a>
+  <a href="#" class="exit" *ngIf="currentUser" (click)="logout()">Exit</a>
 </header>
 <div class="unauthorized-screen" *ngIf="!currentUser">
   <div class="row">
@@ -42,7 +42,7 @@
             />
           </div>
           <div class="form__control">
-            <button type="submit" class="btn btn_success" (click)="addUser()">
+            <button type="submit" class="btn btn_success" (click)="signup()">
               Register
             </button>
           </div>
@@ -79,7 +79,7 @@
             <button
               type="submit"
               class="btn btn_success"
-              (click)="findUser(login.login, login.password)"
+              (click)="signin(login.login, login.password)"
             >
               Login
             </button>
@@ -89,14 +89,14 @@
     </div>
   </div>
 </div>
-<div class="authorized-screen" *ngIf="currentUser !== undefined">
+<div class="authorized-screen" *ngIf="currentUser">
   <div class="row authorized">
     <div class="contacts">
       <h2 class="form__header">My Contacts</h2>
       <ul class="my-contacts-list">
         <li
           class="my-contacts-list-item"
-          *ngFor="let contact of contacts"
+          *ngFor="let contact of filteredContacts"
           [class.active-contact]="activeContact === contact"
           (click)="setToActive(contact)"
         >
@@ -109,7 +109,7 @@
     </div>
     <div class="wrapper">
       <h2 class="form__header">Chosen contact</h2>
-      <div class="chosen-contact" *ngIf="activeContact !== null">
+      <div class="chosen-contact" *ngIf="activeContact">
         <div class="my-contacts-list-item chosen">{{ activeContact.name }}</div>
         <div class="my-contacts-list-item chosen">{{ activeContact.type }}</div>
         <div class="my-contacts-list-item chosen">
@@ -120,16 +120,29 @@
     <div class="wrapper">
       <h2 class="form__header">Find contact</h2>
       <form class="find-contact">
-        <select name="find-type" id="find-type">
+        <select name="searchType" id="find-type" [(ngModel)]="searchType">
           <option value="find-by-name">Name</option>
           <option value="find-by-value">Phone/Email</option>
         </select>
-        <input required type="text" id="serachInput" placeholder="Search..." />
-        <button type="submit" class="btn_success find-btn">Find</button>
+        <input
+          required
+          type="text"
+          id="searchInput"
+          placeholder="Search..."
+          [(ngModel)]="searchText"
+          name="searchText"
+        />
+        <button
+          type="submit"
+          class="btn_success find-btn"
+          (click)="showFilteredContacts()"
+        >
+          Find
+        </button>
         <button
           type="reset"
           class="btn_success reset-btn"
-          (click)="resetChosenContact()"
+          (click)="resetFindContact()"
         >
           Reset
         </button>
