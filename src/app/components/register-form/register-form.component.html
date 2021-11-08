@@ -1,0 +1,43 @@
+<form class="form register-form">
+  <h2 class="form__header">Register</h2>
+  <div class="form__body">
+    <div class="form__control">
+      <label for="register_user_login">Login</label>
+      <input
+        required
+        type="text"
+        class="input"
+        id="register_user_login"
+        name="login"
+        [(ngModel)]="user.login"
+      />
+    </div>
+    <div class="form__control">
+      <label for="register_user_password">Password</label>
+      <input
+        required
+        type="password"
+        class="input"
+        id="register_user_password"
+        [(ngModel)]="user.password"
+        name="password"
+      />
+    </div>
+    <div class="form__control">
+      <label for="register_user_born">Date of birth</label>
+      <input
+        required
+        type="text"
+        class="input"
+        id="register_user_born"
+        [(ngModel)]="user.birthdate"
+        name="birthdate"
+      />
+    </div>
+    <div class="form__control">
+      <button type="submit" class="btn btn_success" (click)="signup()">
+        Register
+      </button>
+    </div>
+  </div>
+</form>

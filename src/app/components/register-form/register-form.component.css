@@ -1,0 +1,34 @@
+.form {
+  box-shadow: 1px 2px 1px 1px #777;
+  padding: 20px;
+}
+
+.form__header {
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+.form .form__body {
+  padding-bottom: 15px;
+}
+
+.form .form__control {
+  display: flex;
+  /* justify-content: flex-start; */
+  gap: 20px;
+  padding: 10px;
+}
+
+.btn_success {
+  margin: 0 auto;
+  border-radius: 4px;
+  background-color: #1d7373;
+  color: #fff;
+  padding: 4px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn_success:active {
+  transform: scale(1.1);
+}
