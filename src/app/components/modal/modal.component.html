@@ -1,0 +1,13 @@
+<div class="modal-window" *ngIf="modalService.showModal">
+  <div class="modal-window__window">
+    <div class="modal-window__body">{{ modalService.message }}</div>
+    <div class="modal-window__footer">
+      <button
+        class="btn_success modal-window__btn"
+        (click)="modalService.closeModal()"
+      >
+        Ok
+      </button>
+    </div>
+  </div>
+</div>

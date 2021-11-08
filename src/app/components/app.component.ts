@@ -9,9 +9,6 @@ import { Contact } from '../models/contact';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  public user: User = new User('', '', '');
-  public login: Login = new Login('', '');
-  public users: User[] = [new User('Oksana', '12345', '123345')];
   public currentUser?: User;
   public contact: Contact = new Contact('', 'phone', '');
   public contacts: Contact[] = [];
@@ -23,32 +20,6 @@ export class AppComponent {
   public emptyField: boolean = false;
   public searchText: string = '';
   public searchType: 'find-by-name' | 'find-by-value' = 'find-by-name';
-
-  signup() {
-    if (
-      this.user.login === '' ||
-      this.user.password === '' ||
-      this.user.birthdate === ''
-    ) {
-      this.showModalMessage('Please, fill out all the fields');
-    } else {
-      this.users.push(this.user);
-      this.user = new User('', '', '');
-    }
-  }
-
-  signin(login: string, password: string) {
-    if (this.login.login === '' || this.login.password === '') {
-      this.showModalMessage('Please, fill out all the fields');
-    } else {
-      this.currentUser = this.users.find((u) => {
-        return u.login === login && u.password === password;
-      });
-      if (!this.currentUser) {
-        this.showModalMessage('Wrong login or password');
-      }
-    }
-  }
 
   addContact(name: string, type: string, value: string) {
     if (
@@ -99,7 +70,7 @@ export class AppComponent {
 
   logout() {
     this.currentUser = undefined;
-    this.login = new Login('', '');
+    // this.login = new Login('', '');
   }
 
   showModalMessage(message: string) {

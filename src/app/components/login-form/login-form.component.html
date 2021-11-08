@@ -1,0 +1,36 @@
+<form class="form login-form">
+  <h2 class="form__header">Login</h2>
+  <div class="form__body">
+    <div class="form__control">
+      <label for="login_user_login">Login</label>
+      <input
+        required
+        type="text"
+        class="input"
+        id="login_user_login"
+        name="login"
+        [(ngModel)]="login.login"
+      />
+    </div>
+    <div class="form__control">
+      <label for="login_user_password">Password</label>
+      <input
+        required
+        type="password"
+        class="input"
+        id="login_user_password"
+        name="password"
+        [(ngModel)]="login.password"
+      />
+    </div>
+    <div class="form__control">
+      <button
+        type="submit"
+        class="btn btn_success"
+        (click)="signin(login.login, login.password)"
+      >
+        Login
+      </button>
+    </div>
+  </div>
+</form>
