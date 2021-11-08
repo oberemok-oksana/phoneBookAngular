@@ -1,8 +1,10 @@
 <header class="header">
   <h1 class="header__logo">MyPhoneBook</h1>
-  <a href="#" class="exit" *ngIf="currentUser" (click)="logout()">Exit</a>
+  <a href="#" class="exit" *ngIf="usersService.currentUser" (click)="logout()"
+    >Exit</a
+  >
 </header>
-<div class="unauthorized-screen" *ngIf="!currentUser">
+<div class="unauthorized-screen" *ngIf="!usersService.currentUser">
   <div class="row">
     <div class="row__col">
       <app-register-form></app-register-form>
@@ -12,7 +14,7 @@
     </div>
   </div>
 </div>
-<div class="authorized-screen" *ngIf="currentUser">
+<div class="authorized-screen" *ngIf="usersService.currentUser">
   <div class="row authorized">
     <div class="contacts">
       <h2 class="form__header">My Contacts</h2>

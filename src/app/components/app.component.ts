@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { User } from '../models/user';
 import { Login } from '../models/login';
 import { Contact } from '../models/contact';
+import { ModalService } from './services/modal/modal.service';
+import { UsersService } from './services/users/users.service';
 
 @Component({
   selector: 'app-root',
@@ -9,17 +11,20 @@ import { Contact } from '../models/contact';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  public currentUser?: User;
   public contact: Contact = new Contact('', 'phone', '');
   public contacts: Contact[] = [];
   public filteredContacts: Contact[] = this.contacts;
   public types: string[] = ['phone', 'email'];
   public activeContact: Contact | null = null;
-  public showModal: boolean = false;
-  public message?: string;
+
   public emptyField: boolean = false;
   public searchText: string = '';
   public searchType: 'find-by-name' | 'find-by-value' = 'find-by-name';
+
+  constructor(
+    private modalService: ModalService,
+    public usersService: UsersService
+  ) {}
 
   addContact(name: string, type: string, value: string) {
     if (
@@ -27,7 +32,7 @@ export class AppComponent {
       this.contact.type === '' ||
       this.contact.value === ''
     ) {
-      this.showModalMessage('Please, fill out all the fields');
+      this.modalService.showModalMessage('Please, fill out all the fields');
     } else {
       this.contacts.push(new Contact(name, type, value));
       this.contact = new Contact('', 'phone', '');
@@ -69,12 +74,6 @@ export class AppComponent {
   }
 
   logout() {
-    this.currentUser = undefined;
-    // this.login = new Login('', '');
-  }
-
-  showModalMessage(message: string) {
-    this.message = message;
-    this.showModal = true;
+    this.usersService.logout();
   }
 }

@@ -23,8 +23,8 @@ export class LoginFormComponent {
     if (this.login.login === '' || this.login.password === '') {
       this.modalService.showModalMessage('Please, fill out all the fields');
     } else {
-      this.currentUser = this.usersService.findUser(login, password);
-      if (!this.currentUser) {
+      this.usersService.findUser(login, password);
+      if (!this.usersService.currentUser) {
         this.modalService.showModalMessage('Wrong login or password');
       }
     }

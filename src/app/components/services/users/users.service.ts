@@ -6,6 +6,7 @@ import { User } from 'src/app/models/user';
 })
 export class UsersService {
   private users: User[] = [new User('Oksana', '12345', '12')];
+  public currentUser?: User;
 
   getUsers() {
     return this.users;
@@ -16,8 +17,12 @@ export class UsersService {
   }
 
   findUser(login: string, password: string) {
-    return this.users.find((u) => {
+    this.currentUser = this.users.find((u) => {
       return u.login === login && u.password === password;
     });
+  }
+
+  logout() {
+    this.currentUser = undefined;
   }
 }
