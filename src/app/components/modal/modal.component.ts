@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalService } from '../services/modal/modal.service';
 
 @Component({
@@ -7,5 +7,12 @@ import { ModalService } from '../services/modal/modal.service';
   styleUrls: ['./modal.component.css'],
 })
 export class ModalComponent {
-  constructor(public modalService: ModalService) {}
+  public showModal$ = this.modalService.getShowModal();
+  public message$ = this.modalService.getMessage();
+
+  constructor(private modalService: ModalService) {}
+
+  closeModal() {
+    this.modalService.closeModal();
+  }
 }

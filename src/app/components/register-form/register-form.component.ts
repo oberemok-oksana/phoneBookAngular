@@ -29,6 +29,5 @@ export class RegisterFormComponent {
       this.usersService.addUser(this.user);
       this.user = new User('', '', '');
     }
-    console.log(this.usersService.getUsers());
   }
 }

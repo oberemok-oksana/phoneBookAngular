@@ -4,6 +4,7 @@ import { Login } from '../models/login';
 import { Contact } from '../models/contact';
 import { ModalService } from './services/modal/modal.service';
 import { UsersService } from './services/users/users.service';
+import { ContactsService } from './services/contacts/contacts.service';
 
 @Component({
   selector: 'app-root',
@@ -11,19 +12,19 @@ import { UsersService } from './services/users/users.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  public contact: Contact = new Contact('', 'phone', '');
-  public contacts: Contact[] = [];
-  public filteredContacts: Contact[] = this.contacts;
   public types: string[] = ['phone', 'email'];
-  public activeContact: Contact | null = null;
-
-  public emptyField: boolean = false;
+  public contact: Contact = new Contact('', 'phone', '');
   public searchText: string = '';
   public searchType: 'find-by-name' | 'find-by-value' = 'find-by-name';
+  public currentUser$ = this.usersService.getCurrentUser();
+  public activeContact$ = this.contactsService.getActiveContact();
+
+  public emptyField: boolean = false;
 
   constructor(
     private modalService: ModalService,
-    public usersService: UsersService
+    private usersService: UsersService,
+    private contactsService: ContactsService
   ) {}
 
   addContact(name: string, type: string, value: string) {
@@ -34,43 +35,37 @@ export class AppComponent {
     ) {
       this.modalService.showModalMessage('Please, fill out all the fields');
     } else {
-      this.contacts.push(new Contact(name, type, value));
+      this.contactsService.addContact(new Contact(name, type, value));
       this.contact = new Contact('', 'phone', '');
-      this.showFilteredContacts();
     }
   }
 
-  setToActive(contact: Contact) {
-    this.activeContact = contact;
-  }
-
-  deleteContact(contact: Contact) {
-    this.contacts = this.contacts.filter((c) => c !== contact);
-    if (this.activeContact === contact) {
-      this.activeContact = null;
-    }
-    this.showFilteredContacts();
-  }
+  // deleteContact(contact: Contact) {
+  //   this.contacts = this.contacts.filter((c) => c !== contact);
+  //   if (this.activeContact === contact) {
+  //     this.activeContact = null;
+  //   }
+  //   this.showFilteredContacts();
+  // }
 
   showFilteredContacts() {
-    if (this.searchType === 'find-by-name') {
-      this.filteredContacts = this.contacts.filter((c) =>
-        c.name
-          .toLocaleLowerCase()
-          .startsWith(this.searchText.toLocaleLowerCase())
-      );
-    } else {
-      this.filteredContacts = this.contacts.filter((c) =>
-        c.value
-          .toLocaleLowerCase()
-          .startsWith(this.searchText.toLocaleLowerCase())
-      );
-    }
+    //   if (this.searchType === 'find-by-name') {
+    //     this.filteredContacts = this.contacts.filter((c) =>
+    //       c.name
+    //         .toLocaleLowerCase()
+    //         .startsWith(this.searchText.toLocaleLowerCase())
+    //     );
+    //   } else {
+    //     this.filteredContacts = this.contacts.filter((c) =>
+    //       c.value
+    //         .toLocaleLowerCase()
+    //         .startsWith(this.searchText.toLocaleLowerCase())
+    //     );
+    //   }
   }
 
   resetFindContact() {
-    this.activeContact = null;
-    this.filteredContacts = this.contacts;
+    this.contactsService.setToActive(null);
   }
 
   logout() {

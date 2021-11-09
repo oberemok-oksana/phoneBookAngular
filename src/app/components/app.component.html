@@ -1,10 +1,10 @@
 <header class="header">
   <h1 class="header__logo">MyPhoneBook</h1>
-  <a href="#" class="exit" *ngIf="usersService.currentUser" (click)="logout()"
+  <a href="#" class="exit" *ngIf="currentUser$ | async" (click)="logout()"
     >Exit</a
   >
 </header>
-<div class="unauthorized-screen" *ngIf="!usersService.currentUser">
+<div class="unauthorized-screen" *ngIf="!(currentUser$ | async)">
   <div class="row">
     <div class="row__col">
       <app-register-form></app-register-form>
@@ -14,31 +14,20 @@
     </div>
   </div>
 </div>
-<div class="authorized-screen" *ngIf="usersService.currentUser">
+<div class="authorized-screen" *ngIf="currentUser$ | async">
   <div class="row authorized">
-    <div class="contacts">
-      <h2 class="form__header">My Contacts</h2>
-      <ul class="my-contacts-list">
-        <li
-          class="my-contacts-list-item"
-          *ngFor="let contact of filteredContacts"
-          [class.active-contact]="activeContact === contact"
-          (click)="setToActive(contact)"
-        >
-          {{ contact.name
-          }}<button class="delete-btn" (click)="deleteContact(contact)">
-            x
-          </button>
-        </li>
-      </ul>
-    </div>
+    <app-my-contacts></app-my-contacts>
     <div class="wrapper">
       <h2 class="form__header">Chosen contact</h2>
-      <div class="chosen-contact" *ngIf="activeContact">
-        <div class="my-contacts-list-item chosen">{{ activeContact.name }}</div>
-        <div class="my-contacts-list-item chosen">{{ activeContact.type }}</div>
+      <div class="chosen-contact" *ngIf="activeContact$ | async">
         <div class="my-contacts-list-item chosen">
-          {{ activeContact.value }}
+          {{ (activeContact$ | async)?.name }}
+        </div>
+        <div class="my-contacts-list-item chosen">
+          {{ (activeContact$ | async)?.type }}
+        </div>
+        <div class="my-contacts-list-item chosen">
+          {{ (activeContact$ | async)?.value }}
         </div>
       </div>
     </div>
