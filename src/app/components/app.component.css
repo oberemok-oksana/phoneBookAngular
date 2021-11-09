@@ -89,10 +89,6 @@
   height: min-content;
 }
 
-.adding-contacts {
-  flex-basis: 15%;
-}
-
 .find-contact {
   display: flex;
   flex-direction: column;

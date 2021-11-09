@@ -7,6 +7,7 @@ import { RegisterFormComponent } from './components/register-form/register-form.
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { MyContactsComponent } from './components/my-contacts/my-contacts.component';
+import { AddContactComponent } from './components/add-contact/add-contact.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { MyContactsComponent } from './components/my-contacts/my-contacts.compon
     LoginFormComponent,
     ModalComponent,
     MyContactsComponent,
+    AddContactComponent,
   ],
   imports: [BrowserModule, FormsModule],
   providers: [],

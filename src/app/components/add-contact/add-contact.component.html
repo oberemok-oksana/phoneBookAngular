@@ -1,0 +1,38 @@
+<div class="adding-contacts">
+  <form class="form add-contact-form">
+    <h2 class="form__header">Add Contacts</h2>
+    <div class="form__body">
+      <div class="form__control my-contacts">
+        <input
+          required
+          type="text"
+          placeholder="Name"
+          id="contact-name"
+          name="name"
+          [(ngModel)]="contact.name"
+        />
+        <select id="options" [(ngModel)]="contact.type" name="type">
+          <option value="phone" *ngFor="let type of types" [ngValue]="type">
+            {{ type }}
+          </option>
+          <!-- <option value="email">Email</option> -->
+        </select>
+        <input
+          required
+          type="text"
+          id="contact"
+          placeholder="Phone/Email"
+          name="value"
+          [(ngModel)]="contact.value"
+        />
+        <button
+          type="submit"
+          class="btn_success"
+          (click)="addContact(contact.name, contact.type, contact.value)"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
