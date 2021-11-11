@@ -1,20 +1,38 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Contact } from 'src/app/models/contact';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContactsService {
+  public searchText: string = '';
+  public searchType: string = 'find-by-name';
   private contacts = new BehaviorSubject<Contact[]>([
     new Contact('Boba', 'phone', '06446486'),
   ]);
-  // public filteredContacts: Contact[] = this.contacts;
   private activeContact = new BehaviorSubject<Contact | null>(null);
   constructor() {}
 
   getContacts() {
-    return this.contacts.asObservable();
+    return this.contacts.asObservable().pipe(
+      map((contacts) => {
+        if (this.searchType === 'find-by-name') {
+          return contacts.filter((c) =>
+            c.name
+              .toLocaleLowerCase()
+              .startsWith(this.searchText.toLocaleLowerCase())
+          );
+        } else {
+          return contacts.filter((c) =>
+            c.value
+              .toLocaleLowerCase()
+              .startsWith(this.searchText.toLocaleLowerCase())
+          );
+        }
+      })
+    );
   }
 
   getActiveContact() {
@@ -23,7 +41,16 @@ export class ContactsService {
 
   addContact(contact: Contact) {
     this.contacts.next([...this.contacts.getValue(), contact]);
-    // this.showFilteredContacts();
+  }
+
+  filter(searchText: string, searchType: string) {
+    this.searchText = searchText;
+    this.searchType = searchType;
+    this.contacts.next(this.contacts.getValue());
+  }
+
+  resetFilters() {
+    this.filter('', 'find-by-name');
   }
 
   deleteContact(contact: Contact) {
@@ -34,26 +61,9 @@ export class ContactsService {
     if (this.activeContact.getValue() === contact) {
       this.activeContact.next(null);
     }
-    // this.showFilteredContacts();
   }
 
   setToActive(contact: Contact | null) {
     this.activeContact.next(contact);
   }
-
-  // showFilteredContacts() {
-  //   if (this.searchType === 'find-by-name') {
-  //     this.filteredContacts = this.contacts.filter((c) =>
-  //       c.name
-  //         .toLocaleLowerCase()
-  //         .startsWith(this.searchText.toLocaleLowerCase())
-  //     );
-  //   } else {
-  //     this.filteredContacts = this.contacts.filter((c) =>
-  //       c.value
-  //         .toLocaleLowerCase()
-  //         .startsWith(this.searchText.toLocaleLowerCase())
-  //     );
-  //   }
-  // }
 }

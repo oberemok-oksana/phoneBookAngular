@@ -16,7 +16,7 @@
 </div>
 <div class="authorized-screen" *ngIf="currentUser$ | async">
   <div class="row authorized">
-    <app-my-contacts></app-my-contacts>
+    <app-my-contacts class="component"></app-my-contacts>
     <div class="wrapper">
       <h2 class="form__header">Chosen contact</h2>
       <div class="chosen-contact" *ngIf="activeContact$ | async">
@@ -31,37 +31,7 @@
         </div>
       </div>
     </div>
-    <div class="wrapper">
-      <h2 class="form__header">Find contact</h2>
-      <form class="find-contact">
-        <select name="searchType" id="find-type" [(ngModel)]="searchType">
-          <option value="find-by-name">Name</option>
-          <option value="find-by-value">Phone/Email</option>
-        </select>
-        <input
-          required
-          type="text"
-          id="searchInput"
-          placeholder="Search..."
-          [(ngModel)]="searchText"
-          name="searchText"
-        />
-        <button
-          type="submit"
-          class="btn_success find-btn"
-          (click)="showFilteredContacts()"
-        >
-          Find
-        </button>
-        <button
-          type="reset"
-          class="btn_success reset-btn"
-          (click)="resetFindContact()"
-        >
-          Reset
-        </button>
-      </form>
-    </div>
+    <app-find-contact></app-find-contact>
 
     <app-add-contact></app-add-contact>
   </div>

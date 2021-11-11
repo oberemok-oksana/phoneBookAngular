@@ -8,6 +8,7 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { ModalComponent } from './components/modal/modal.component';
 import { MyContactsComponent } from './components/my-contacts/my-contacts.component';
 import { AddContactComponent } from './components/add-contact/add-contact.component';
+import { FindContactComponent } from './components/find-contact/find-contact.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { AddContactComponent } from './components/add-contact/add-contact.compon
     ModalComponent,
     MyContactsComponent,
     AddContactComponent,
+    FindContactComponent,
   ],
   imports: [BrowserModule, FormsModule],
   providers: [],

@@ -12,8 +12,6 @@ import { ContactsService } from './services/contacts/contacts.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  public searchText: string = '';
-  public searchType: 'find-by-name' | 'find-by-value' = 'find-by-name';
   public currentUser$ = this.usersService.getCurrentUser();
   public activeContact$ = this.contactsService.getActiveContact();
 
@@ -24,14 +22,6 @@ export class AppComponent {
     private usersService: UsersService,
     private contactsService: ContactsService
   ) {}
-
-  // deleteContact(contact: Contact) {
-  //   this.contacts = this.contacts.filter((c) => c !== contact);
-  //   if (this.activeContact === contact) {
-  //     this.activeContact = null;
-  //   }
-  //   this.showFilteredContacts();
-  // }
 
   showFilteredContacts() {
     //   if (this.searchType === 'find-by-name') {
@@ -47,10 +37,6 @@ export class AppComponent {
     //         .startsWith(this.searchText.toLocaleLowerCase())
     //     );
     //   }
-  }
-
-  resetFindContact() {
-    this.contactsService.setToActive(null);
   }
 
   logout() {
