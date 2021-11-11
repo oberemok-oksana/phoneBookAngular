@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Login } from '../../models/login';
 import { User } from '../../models/user';
 import { ModalService } from '../services/modal/modal.service';

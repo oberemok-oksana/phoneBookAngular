@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Contact } from 'src/app/models/contact';
 import { ContactsService } from '../services/contacts/contacts.service';
 import { ModalService } from '../services/modal/modal.service';

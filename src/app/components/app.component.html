@@ -17,7 +17,7 @@
 <div class="authorized-screen" *ngIf="currentUser$ | async">
   <div class="row authorized">
     <app-my-contacts class="component"></app-my-contacts>
-    <div class="wrapper">
+    <div class="wrapper component">
       <h2 class="form__header">Chosen contact</h2>
       <div class="chosen-contact" *ngIf="activeContact$ | async">
         <div class="my-contacts-list-item chosen">
@@ -31,9 +31,9 @@
         </div>
       </div>
     </div>
-    <app-find-contact></app-find-contact>
+    <app-find-contact class="component"></app-find-contact>
 
-    <app-add-contact></app-add-contact>
+    <app-add-contact class="component"></app-add-contact>
   </div>
 </div>
 <app-modal></app-modal>
