@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { User } from '../../models/user';
-import { ModalService } from '../services/modal/modal.service';
-import { UsersService } from '../services/users/users.service';
+import { ModalService } from '../../services/modal/modal.service';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-register-form',

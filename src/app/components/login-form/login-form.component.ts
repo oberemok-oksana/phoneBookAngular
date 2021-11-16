@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Login } from '../../models/login';
 import { User } from '../../models/user';
-import { ModalService } from '../services/modal/modal.service';
-import { UsersService } from '../services/users/users.service';
+import { ModalService } from '../../services/modal/modal.service';
+import { UsersService } from '../../services/users/users.service';
 
 @Component({
   selector: 'app-login-form',

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ContactsService } from '../services/contacts/contacts.service';
+import { ContactsService } from '../../services/contacts/contacts.service';
 
 @Component({
   selector: 'app-find-contact',
