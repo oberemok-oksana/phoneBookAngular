@@ -17,15 +17,15 @@
     <app-my-contacts class="component"></app-my-contacts>
     <div class="wrapper component">
       <h2 class="form__header">Chosen contact</h2>
-      <div class="chosen-contact" *ngIf="activeContact$ | async">
+      <div class="chosen-contact" *ngIf="activeContact">
         <div class="my-contacts-list-item chosen">
-          {{ (activeContact$ | async)?.name }}
+          {{ activeContact?.name }}
         </div>
         <div class="my-contacts-list-item chosen">
-          {{ (activeContact$ | async)?.type }}
+          {{ activeContact?.type }}
         </div>
         <div class="my-contacts-list-item chosen">
-          {{ (activeContact$ | async)?.value }}
+          {{ activeContact?.value }}
         </div>
       </div>
     </div>

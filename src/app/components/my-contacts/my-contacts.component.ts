@@ -9,9 +9,19 @@ import { ContactsService } from '../../services/contacts/contacts.service';
 })
 export class MyContactsComponent {
   public contacts: Contact[] = [];
-  public activeContact$ = this.contactsService.getActiveContact();
+  public activeContact: Contact | null = null;
 
   constructor(private contactsService: ContactsService) {
+    this.loadContacts();
+    this.contactsService.activeContactChange$.subscribe((contact) => {
+      this.activeContact = contact;
+    });
+    this.contactsService.contactAdded$.subscribe(() => {
+      this.loadContacts();
+    });
+  }
+
+  loadContacts() {
     this.contactsService.getContacts().subscribe((response) => {
       if (response.status === 'ok') {
         this.contacts = response.contacts;
@@ -23,9 +33,5 @@ export class MyContactsComponent {
 
   setToActive(contact: Contact) {
     this.contactsService.setToActive(contact);
-  }
-
-  deleteContact(contact: Contact) {
-    this.contactsService.deleteContact(contact);
   }
 }

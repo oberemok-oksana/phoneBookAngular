@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { AddContactResponse } from 'src/app/models/add-contact-response';
 import { Contact } from 'src/app/models/contact';
 import { ContactResponse } from 'src/app/models/contact-response';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,16 +14,16 @@ export class ContactsService {
   public searchText: string = '';
   public searchType: string = 'find-by-name';
 
-  private token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJPa3NhbmEiLCJpYXQiOjE2MzcwODAwMzgsImV4cCI6MTYzNzA4MzYzOH0.ZJxqgrrgq0VSm2NZLCAwBR38P18TuSAlO2-nNdBUI3k';
-  private activeContact = new BehaviorSubject<Contact | null>(null);
-  constructor(private http: HttpClient) {}
+  public activeContactChange$ = new BehaviorSubject<Contact | null>(null);
+  public contactAdded$ = new Subject();
+
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getContacts() {
     return this.http
-      .get<ContactResponse>('https://mag-contacts-api.herokuapp.com/contacts', {
+      .get('https://mag-contacts-api.herokuapp.com/contacts', {
         headers: {
-          Authorization: 'Bearer ' + this.token,
+          Authorization: 'Bearer ' + this.authService.token,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -29,12 +31,27 @@ export class ContactsService {
       .pipe(map((response) => ContactResponse.fromJSON(response)));
   }
 
-  getActiveContact() {
-    return this.activeContact.asObservable();
-  }
-
   addContact(contact: Contact) {
-    // this.contacts.next([...this.contacts.getValue(), contact]);
+    return this.http
+      .post(
+        'https://mag-contacts-api.herokuapp.com/contacts/add',
+        contact.toJSON(),
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.authService.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .pipe(
+        map((json) => AddContactResponse.fromJSON(json)),
+        tap((response) => {
+          if (response.isSuccessful()) {
+            this.contactAdded$.next();
+          }
+        })
+      );
   }
 
   filter(searchText: string, searchType: string) {
@@ -47,17 +64,7 @@ export class ContactsService {
     this.filter('', 'find-by-name');
   }
 
-  deleteContact(contact: Contact) {
-    // const filteredContacts = this.contacts
-    // .getValue()
-    // .filter((c) => c !== contact);
-    // this.contacts.next(filteredContacts);
-    if (this.activeContact.getValue() === contact) {
-      this.activeContact.next(null);
-    }
-  }
-
   setToActive(contact: Contact | null) {
-    this.activeContact.next(contact);
+    this.activeContactChange$.next(contact);
   }
 }

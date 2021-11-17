@@ -4,11 +4,10 @@
     <li
       class="my-contacts-list-item"
       *ngFor="let contact of contacts"
-      [class.active-contact]="(activeContact$ | async) === contact"
+      [class.active-contact]="activeContact === contact"
       (click)="setToActive(contact)"
     >
-      {{ contact.name
-      }}<button class="delete-btn" (click)="deleteContact(contact)">x</button>
+      {{ contact.name }}
     </li>
   </ul>
 </div>

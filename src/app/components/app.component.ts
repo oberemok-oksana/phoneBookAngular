@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UsersService } from '../services/users/users.service';
 import { ContactsService } from '../services/contacts/contacts.service';
 import { AuthService } from '../services/auth/auth.service';
+import { Contact } from '../models/contact';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { AuthService } from '../services/auth/auth.service';
 })
 export class AppComponent {
   public auth = false;
-  public activeContact$ = this.contactsService.getActiveContact();
+  public activeContact: Contact | null = null;
   public emptyField: boolean = false;
 
   constructor(
@@ -22,6 +23,9 @@ export class AppComponent {
     });
     this.authService.logout$.subscribe(() => {
       this.auth = false;
+    });
+    this.contactsService.activeContactChange$.subscribe((contact) => {
+      this.activeContact = contact!;
     });
   }
 
