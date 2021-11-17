@@ -8,13 +8,23 @@ import { ContactsService } from '../../services/contacts/contacts.service';
   styleUrls: ['./my-contacts.component.css'],
 })
 export class MyContactsComponent {
-  public contacts$ = this.contactsService.getContacts();
+  public contacts: Contact[] = [];
   public activeContact$ = this.contactsService.getActiveContact();
-  constructor(private contactsService: ContactsService) {}
+
+  constructor(private contactsService: ContactsService) {
+    this.contactsService.getContacts().subscribe((response) => {
+      if (response.status === 'ok') {
+        this.contacts = response.contacts;
+      } else {
+        alert('Something went wrong');
+      }
+    });
+  }
 
   setToActive(contact: Contact) {
     this.contactsService.setToActive(contact);
   }
+
   deleteContact(contact: Contact) {
     this.contactsService.deleteContact(contact);
   }

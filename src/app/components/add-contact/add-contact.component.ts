@@ -9,7 +9,7 @@ import { ModalService } from '../../services/modal/modal.service';
   styleUrls: ['./add-contact.component.css'],
 })
 export class AddContactComponent {
-  public contact: Contact = new Contact('', 'phone', '');
+  public contact: Contact = new Contact(0, '', 'phone', '');
   public types: string[] = ['phone', 'email'];
 
   constructor(
@@ -25,8 +25,8 @@ export class AddContactComponent {
     ) {
       this.modalService.showModalMessage('Please, fill out all the fields');
     } else {
-      this.contactsService.addContact(new Contact(name, type, value));
-      this.contact = new Contact('', 'phone', '');
+      this.contactsService.addContact(new Contact(0, name, type, value));
+      this.contact = new Contact(0, '', 'phone', '');
     }
   }
 }

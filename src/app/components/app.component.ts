@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UsersService } from '../services/users/users.service';
 import { ContactsService } from '../services/contacts/contacts.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,17 +9,23 @@ import { ContactsService } from '../services/contacts/contacts.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  public currentUser$ = this.usersService.getCurrentUser();
+  public auth = false;
   public activeContact$ = this.contactsService.getActiveContact();
-
   public emptyField: boolean = false;
 
   constructor(
-    private usersService: UsersService,
-    private contactsService: ContactsService
-  ) {}
+    private contactsService: ContactsService,
+    private authService: AuthService
+  ) {
+    this.authService.login$.subscribe(() => {
+      this.auth = true;
+    });
+    this.authService.logout$.subscribe(() => {
+      this.auth = false;
+    });
+  }
 
   logout() {
-    this.usersService.logout();
+    this.authService.logout();
   }
 }

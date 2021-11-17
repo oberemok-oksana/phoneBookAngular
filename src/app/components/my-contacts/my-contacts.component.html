@@ -3,7 +3,7 @@
   <ul class="my-contacts-list">
     <li
       class="my-contacts-list-item"
-      *ngFor="let contact of contacts$ | async"
+      *ngFor="let contact of contacts"
       [class.active-contact]="(activeContact$ | async) === contact"
       (click)="setToActive(contact)"
     >

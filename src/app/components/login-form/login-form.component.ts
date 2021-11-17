@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { Login } from '../../models/login';
 import { User } from '../../models/user';
 import { ModalService } from '../../services/modal/modal.service';
@@ -10,12 +11,12 @@ import { UsersService } from '../../services/users/users.service';
   styleUrls: ['./login-form.component.css'],
 })
 export class LoginFormComponent {
-  public login: Login = new Login('', '');
+  public login: Login = new Login('Oksana', '12345');
 
   public currentUser?: User;
 
   constructor(
-    private usersService: UsersService,
+    private authService: AuthService,
     private modalService: ModalService
   ) {}
 
@@ -23,9 +24,11 @@ export class LoginFormComponent {
     if (this.login.login === '' || this.login.password === '') {
       this.modalService.showModalMessage('Please, fill out all the fields');
     } else {
-      if (!this.usersService.findUser(login, password)) {
-        this.modalService.showModalMessage('Wrong login or password');
-      }
+      this.authService.login(login, password).subscribe((response) => {
+        if (response.isErrored()) {
+          this.modalService.showModalMessage(response.error!);
+        }
+      });
     }
   }
 }

@@ -1,10 +1,8 @@
 <header class="header">
   <h1 class="header__logo">MyPhoneBook</h1>
-  <a href="#" class="exit" *ngIf="currentUser$ | async" (click)="logout()"
-    >Exit</a
-  >
+  <a href="#" class="exit" *ngIf="auth" (click)="logout()">Exit</a>
 </header>
-<div class="unauthorized-screen" *ngIf="!(currentUser$ | async)">
+<div class="unauthorized-screen" *ngIf="!auth">
   <div class="row">
     <div class="row__col">
       <app-register-form></app-register-form>
@@ -14,7 +12,7 @@
     </div>
   </div>
 </div>
-<div class="authorized-screen" *ngIf="currentUser$ | async">
+<div class="authorized-screen" *ngIf="auth">
   <div class="row authorized">
     <app-my-contacts class="component"></app-my-contacts>
     <div class="wrapper component">
