@@ -5,17 +5,16 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { AddContactResponse } from 'src/app/models/add-contact-response';
 import { Contact } from 'src/app/models/contact';
 import { ContactResponse } from 'src/app/models/contact-response';
+import { Filters } from 'src/app/models/filters';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContactsService {
-  public searchText: string = '';
-  public searchType: string = 'find-by-name';
-
   public activeContactChange$ = new BehaviorSubject<Contact | null>(null);
   public contactAdded$ = new Subject();
+  public filtersChanged$ = new Subject<Filters>();
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -28,6 +27,22 @@ export class ContactsService {
           'Content-Type': 'application/json',
         },
       })
+      .pipe(map((response) => ContactResponse.fromJSON(response)));
+  }
+
+  findContacts(filters: Filters) {
+    return this.http
+      .post(
+        'https://mag-contacts-api.herokuapp.com/contacts/find',
+        filters.toRequestFormat(),
+        {
+          headers: {
+            Authorization: 'Bearer ' + this.authService.token,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      )
       .pipe(map((response) => ContactResponse.fromJSON(response)));
   }
 
@@ -55,16 +70,14 @@ export class ContactsService {
   }
 
   filter(searchText: string, searchType: string) {
-    this.searchText = searchText;
-    this.searchType = searchType;
-    // this.contacts.next(this.contacts.getValue());
+    this.filtersChanged$.next(new Filters(searchText, searchType));
   }
 
   resetFilters() {
     this.filter('', 'find-by-name');
   }
 
-  setToActive(contact: Contact | null) {
+  setActive(contact: Contact | null) {
     this.activeContactChange$.next(contact);
   }
 }

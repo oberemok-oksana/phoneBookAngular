@@ -5,7 +5,7 @@
       class="my-contacts-list-item"
       *ngFor="let contact of contacts"
       [class.active-contact]="activeContact === contact"
-      (click)="setToActive(contact)"
+      (click)="setActive(contact)"
     >
       {{ contact.name }}
     </li>

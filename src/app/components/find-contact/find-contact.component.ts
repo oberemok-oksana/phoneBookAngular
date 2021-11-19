@@ -13,7 +13,9 @@ export class FindContactComponent {
   constructor(private contactsService: ContactsService) {}
 
   resetFindContact() {
-    this.contactsService.setToActive(null);
+    this.searchText = '';
+    this.searchType = 'find-by-name';
+    this.contactsService.setActive(null);
     this.contactsService.resetFilters();
   }
 
